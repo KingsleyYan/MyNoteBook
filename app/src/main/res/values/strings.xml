@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">My NoteBook</string>
+    <string name="note_title_hint">现在有什么想记点的？</string>
+</resources>
