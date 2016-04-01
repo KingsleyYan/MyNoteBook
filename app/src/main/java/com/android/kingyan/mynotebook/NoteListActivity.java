@@ -2,10 +2,12 @@ package com.android.kingyan.mynotebook;
 
 import android.support.v4.app.Fragment;
 
-public class MainActivity extends SingleFragmentActivity {
-
+/**
+ * Created by yanj on 16/04/01.
+ */
+public class NoteListActivity extends SingleFragmentActivity {
     @Override
     protected Fragment createFragment() {
-        return new NoteBookFragment();
+        return new NoteListFragment();
     }
 }

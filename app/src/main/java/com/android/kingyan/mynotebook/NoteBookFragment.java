@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +52,7 @@ public class NoteBookFragment extends Fragment {
             }
         });
         mDateButton = (Button) v.findViewById(R.id.button_date);
-        mDateButton.setText(mNote.getDate().toString());
+        mDateButton.setText(DateFormat.format("yyyy-MM-dd hh:mm:ss", mNote.getDate()));
         mDateButton.setEnabled(false);
 
         mSolvedCheckBox = (CheckBox) v.findViewById(R.id.checkbox_solved);
