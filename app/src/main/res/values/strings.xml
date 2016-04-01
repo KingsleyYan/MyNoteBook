@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">My NoteBook</string>
     <string name="note_title_hint">现在有什么想记点的？</string>
+    <string name="label_title">标题</string>
+    <string name="label_detail">内容</string>
+    <string name="label_solved">是否解决？</string>
 </resources>
