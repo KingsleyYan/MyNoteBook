@@ -15,19 +15,31 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import java.util.UUID;
+
 /**
  * Created by yanj on 16/04/01.
  */
 public class NoteBookFragment extends Fragment {
+    public static final String EXTRA_NOTEBOOK_ID = "com.android.kingyan.mynotebook.notebookfragment.notebook_id";
     private Note mNote;
     private EditText mTitleEditText;
     private Button mDateButton;
     private CheckBox mSolvedCheckBox;
 
+    public static NoteBookFragment newInstance(UUID id) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(EXTRA_NOTEBOOK_ID, id);
+        NoteBookFragment noteBookFragment = new NoteBookFragment();
+        noteBookFragment.setArguments(bundle);
+        return noteBookFragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mNote = new Note();
+        UUID id = (UUID) getArguments().getSerializable(EXTRA_NOTEBOOK_ID);
+        mNote = NoteLab.get(getActivity()).getNote(id);
     }
 
     @Nullable
