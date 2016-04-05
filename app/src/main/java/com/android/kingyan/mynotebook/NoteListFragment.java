@@ -35,7 +35,7 @@ public class NoteListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Note note = ((NoteAdapter) getListAdapter()).getItem(position);
-        Intent intent = new Intent(getActivity(), MainActivity.class);
+        Intent intent = new Intent(getActivity(), NoteBookPaperActivity.class);
         intent.putExtra(NoteBookFragment.EXTRA_NOTEBOOK_ID, note.getmId());
         startActivity(intent);
     }
@@ -57,7 +57,6 @@ public class NoteListFragment extends ListFragment {
                 convertView = getActivity().getLayoutInflater().inflate(R.layout.list_item_note, null);
             }
             Note note = getItem(position);
-            Log.d(TAG, note + "");
             TextView titleTextView = (TextView) convertView.findViewById(R.id.note_list_item_titleTextView);
             titleTextView.setText(note.getmTitle());
             TextView dateTextView = (TextView) convertView.findViewById(R.id.note_list_item_dateTextView);
