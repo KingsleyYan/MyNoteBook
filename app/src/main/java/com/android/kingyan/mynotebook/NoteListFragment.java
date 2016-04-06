@@ -22,16 +22,6 @@ public class NoteListFragment extends ListFragment {
     private ArrayList<Note> mNotes;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getActivity().setTitle(R.string.note_title);
-        mNotes = NoteLab.get(getActivity()).getNotes();
-
-        NoteAdapter adapter = new NoteAdapter(mNotes);
-        setListAdapter(adapter);
-    }
-
-    @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Note note = ((NoteAdapter) getListAdapter()).getItem(position);
         Intent intent = new Intent(getActivity(), NoteBookPaperActivity.class);
@@ -43,6 +33,16 @@ public class NoteListFragment extends ListFragment {
     public void onResume() {
         super.onResume();
         ((NoteAdapter) getListAdapter()).notifyDataSetChanged();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getActivity().setTitle(R.string.note_title);
+        mNotes = NoteLab.get(getActivity()).getNotes();
+
+        NoteAdapter adapter = new NoteAdapter(mNotes);
+        setListAdapter(adapter);
     }
 
     private class NoteAdapter extends ArrayAdapter<Note> {
