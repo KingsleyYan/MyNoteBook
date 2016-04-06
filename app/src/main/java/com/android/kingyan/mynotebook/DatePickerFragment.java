@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 
@@ -20,6 +21,7 @@ import java.util.GregorianCalendar;
  */
 public class DatePickerFragment extends DialogFragment {
     public static final String EXTRA_DATE = "com.android.kingyan.mynotebook.datepickerfragment.date";
+    private static final String TAG = "DatePickerFragment";
     private Date mDate;
 
     public static DatePickerFragment newInstance(Date date) {
@@ -38,14 +40,13 @@ public class DatePickerFragment extends DialogFragment {
         calendar.setTime(mDate);
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_YEAR);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_date, null);
         DatePicker picker = (DatePicker) view.findViewById(R.id.dialog_date_datepicker);
         picker.init(year, month, day, new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 mDate = new GregorianCalendar(year, monthOfYear, dayOfMonth).getTime();
-
                 getArguments().putSerializable(EXTRA_DATE, mDate);
             }
         });

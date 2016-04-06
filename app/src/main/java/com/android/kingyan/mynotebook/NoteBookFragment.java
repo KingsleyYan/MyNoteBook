@@ -47,8 +47,12 @@ public class NoteBookFragment extends Fragment {
         if (requestCode == REQUEST_DATE) {
             Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             mNote.setDate(date);
-            mDateButton.setText(DateFormat.format("yyyy-MM-dd", mNote.getDate()));
+            updateDate();
         }
+    }
+
+    private void updateDate() {
+        mDateButton.setText(DateFormat.format("yyyy-MM-dd hh:mm:ss", mNote.getDate()));
     }
 
     @Override
@@ -67,12 +71,11 @@ public class NoteBookFragment extends Fragment {
         mTitleEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                mNote.setmTitle(s.toString());
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                mNote.setmTitle(s.toString());
             }
 
             @Override
@@ -81,7 +84,7 @@ public class NoteBookFragment extends Fragment {
             }
         });
         mDateButton = (Button) v.findViewById(R.id.button_date);
-        mDateButton.setText(DateFormat.format("yyyy-MM-dd hh:mm:ss", mNote.getDate()));
+        updateDate();
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
