@@ -90,6 +90,8 @@ public class NoteBookFragment extends Fragment {
             public void onClick(View v) {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 DatePickerFragment pickerFragment = DatePickerFragment.newInstance(mNote.getDate());
+
+                //设置关联的fragment做为通信和目标
                 pickerFragment.setTargetFragment(NoteBookFragment.this, REQUEST_DATE);
                 pickerFragment.show(fragmentManager, DIALOG_DATE);
             }
