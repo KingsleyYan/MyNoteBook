@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">My NoteBook</string>
+    <string name="app_name">我的记事本</string>
     <string name="note_title_hint">现在有什么想记点的？</string>
     <string name="label_title">标题</string>
     <string name="label_detail">内容</string>
-    <string name="label_solved">是否解决？</string>
+    <string name="label_solved">是否提醒？</string>
     <string name="note_title">记事本</string>
     <string name="date_pickr_title">记事日期</string>
     <string name="new_note">新建记事</string>
@@ -11,4 +11,6 @@
     <string name="hide_subtitle">隐藏副标题</string>
     <string name="subtitle">想记录些什么吗？</string>
     <string name="delete_note">删除记录</string>
+    <string name="fragment_list_empty_textview">暂无记事</string>
+    <string name="text_null_title">记一笔</string>
 </resources>

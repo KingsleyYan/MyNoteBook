@@ -16,12 +16,6 @@ public class NoteLab {
     public NoteLab(Context context) {
         mContext = context;
         mNotes = new ArrayList<Note>();
-        for (int i = 0; i < 100; i++) {
-            Note note = new Note();
-            note.setmTitle("Note #" + i);
-            note.setSolved(i % 2 == 0);
-            mNotes.add(note);
-        }
     }
 
     public static NoteLab get(Context context) {
@@ -42,6 +36,10 @@ public class NoteLab {
             }
         }
         return null;
+    }
+
+    public void addNote(Note note) {
+        mNotes.add(note);
     }
 
 }
