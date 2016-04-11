@@ -1,17 +1,22 @@
 package com.android.kingyan.mynotebook;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
 import android.text.format.DateFormat;
+import android.view.ActionMode;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -57,9 +62,6 @@ public class NoteListFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_list_notebook, container, false);
-        ListView listView = (ListView) v.findViewById(android.R.id.list);
-        mEmptyTextView = (TextView) v.findViewById(R.id.fragment_list_empty_textview);
-        listView.setEmptyView(mEmptyTextView);
         mEmptyToCreateButton = (Button) v.findViewById(R.id.button_empty_new_note);
         mEmptyToCreateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +73,58 @@ public class NoteListFragment extends ListFragment {
             if (mSubtitleVisible) {
                 getActivity().getActionBar().setSubtitle(R.string.show_subtitle);
             }
+        }
+        ListView listView = (ListView) v.findViewById(android.R.id.list);
+        mEmptyTextView = (TextView) v.findViewById(R.id.fragment_list_empty_textview);
+        listView.setEmptyView(mEmptyTextView);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            registerForContextMenu(listView);
+        } else {
+            listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+            listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+                @Override
+                public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+
+                }
+
+                @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+                @Override
+                public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                    MenuInflater menuInflater = mode.getMenuInflater();
+                    menuInflater.inflate(R.menu.notebook_list_item_context, menu);
+                    return true;
+                }
+
+                @Override
+                public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                    return false;
+                }
+
+                @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+                @Override
+                public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.menu_item_delete_note:
+                            NoteAdapter adapter = (NoteAdapter) getListAdapter();
+                            NoteLab noteLab = NoteLab.get(getActivity());
+                            for (int i = adapter.getCount() - 1; i >= 0; i--) {
+                                if (getListView().isItemChecked(i)) {
+                                    noteLab.deleteNote(adapter.getItem(i));
+                                }
+                            }
+                            mode.finish();
+                            adapter.notifyDataSetChanged();
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
+
+                @Override
+                public void onDestroyActionMode(ActionMode mode) {
+
+                }
+            });
         }
         return v;
     }
@@ -95,6 +149,7 @@ public class NoteListFragment extends ListFragment {
         mSubtitleVisible = false;
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -115,6 +170,26 @@ public class NoteListFragment extends ListFragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        getActivity().getMenuInflater().inflate(R.menu.notebook_list_item_context, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int position = info.position;
+        NoteAdapter adapter = (NoteAdapter) getListAdapter();
+        Note note = adapter.getItem(position);
+        switch (item.getItemId()) {
+            case R.id.menu_item_delete_note:
+                NoteLab.get(getActivity()).deleteNote(note);
+                adapter.notifyDataSetChanged();
+                return true;
+        }
+        return super.onContextItemSelected(item);
     }
 
     private class NoteAdapter extends ArrayAdapter<Note> {

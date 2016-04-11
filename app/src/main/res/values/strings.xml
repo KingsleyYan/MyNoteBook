@@ -13,4 +13,5 @@
     <string name="delete_note">删除记录</string>
     <string name="fragment_list_empty_textview">暂无记事</string>
     <string name="text_null_title">记一笔</string>
+    <string name="note_camera_take">拍照</string>
 </resources>

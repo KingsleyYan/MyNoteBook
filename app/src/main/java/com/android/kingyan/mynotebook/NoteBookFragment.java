@@ -1,8 +1,11 @@
 package com.android.kingyan.mynotebook;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,7 +15,6 @@ import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +23,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
 
 import java.util.Date;
 import java.util.UUID;
@@ -36,6 +40,8 @@ public class NoteBookFragment extends Fragment {
     private EditText mTitleEditText;
     private Button mDateButton;
     private CheckBox mSolvedCheckBox;
+    private ImageButton mImageButton;
+    private ProgressBar mProgressBar;
 
     public static NoteBookFragment newInstance(UUID id) {
         Bundle bundle = new Bundle();
@@ -86,6 +92,7 @@ public class NoteBookFragment extends Fragment {
         }
     }
 
+    @SuppressLint("WrongViewCast")
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -134,6 +141,21 @@ public class NoteBookFragment extends Fragment {
                 mNote.setSolved(isChecked);
             }
         });
+        mImageButton = (ImageButton) v.findViewById(R.id.note_imageButton);
+        mImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), NoteBookeCameraActivity.class);
+                startActivity(intent);
+            }
+        });
+        PackageManager packageManager = getActivity().getPackageManager();
+        boolean hasCamera = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA) || packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT) || Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD || Camera.getNumberOfCameras() > 0;
+        if (!hasCamera) {
+            mImageButton.setEnabled(false);
+        }
+        mProgressBar = (ProgressBar) v.findViewById(R.id.note_camera_progressContainer);
+        mProgressBar.setVisibility(View.INVISIBLE);
         return v;
     }
 }

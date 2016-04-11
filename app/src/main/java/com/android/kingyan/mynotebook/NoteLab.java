@@ -37,6 +37,10 @@ public class NoteLab {
         return sNoteLab;
     }
 
+    public void deleteNote(Note note) {
+        mNotes.remove(note);
+    }
+
     public boolean saveNotes() {
         try {
             mNoteBookJSONSerializer.saveNotes(mNotes);
