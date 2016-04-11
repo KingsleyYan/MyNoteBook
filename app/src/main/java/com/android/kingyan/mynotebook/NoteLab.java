@@ -22,6 +22,7 @@ public class NoteLab {
         mNoteBookJSONSerializer = new NoteBookJSONSerializer(mContext, FILENAME);
         try {
             mNotes = mNoteBookJSONSerializer.getLoadNotes();
+            Log.d(TAG, "notes " + mNotes.size());
             Log.d(TAG, "load success");
         } catch (Exception e) {
             mNotes = new ArrayList();
@@ -39,6 +40,7 @@ public class NoteLab {
     public boolean saveNotes() {
         try {
             mNoteBookJSONSerializer.saveNotes(mNotes);
+            Log.d(TAG, "notes " + mNotes.size());
             Log.d(TAG, "notes saved");
             return true;
         } catch (Exception e) {

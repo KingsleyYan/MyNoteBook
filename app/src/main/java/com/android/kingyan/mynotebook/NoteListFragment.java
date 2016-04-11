@@ -96,12 +96,6 @@ public class NoteListFragment extends ListFragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        NoteLab.get(getActivity()).saveNotes();
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_new_note:

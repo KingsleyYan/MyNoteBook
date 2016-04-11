@@ -12,6 +12,7 @@ import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,6 +53,12 @@ public class NoteBookFragment extends Fragment {
             mNote.setDate(date);
             updateDate();
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        NoteLab.get(getActivity()).saveNotes();
     }
 
     private void updateDate() {
